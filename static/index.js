@@ -18,7 +18,6 @@ function playAll() {
         this.play();
         this.muted = false;
     });
-    // $('audio').get(0).play();
 }
 
 function playOnlyMe(me) {
@@ -28,8 +27,6 @@ function playOnlyMe(me) {
     me.currentTime = 0;
     me.muted = false;
     me.play();
-
-    // $('audio').get(0).pause();
 }
 
 function fullScreenChange() {
@@ -45,30 +42,34 @@ function fullScreenChange() {
 
 function bindEvents() {
     $('video').each(function () {
-        $(this).bind('click', requestFullscreen);
+        $(this).click(requestFullscreen);
         $(this).bind('webkitfullscreenchange mozfullscreenchange fullscreenchange', fullScreenChange);
+    });
+
+    $('#playButton').click(function () {
+        $('#overlay').css("display", "none");
+        playAll();
     });
 }
 
-function trmarkup(colCount) {
-    var trmarkup = '<tr class="table-dark">';
+function columns(colCount) {
+    var columns = "";
     for (i = 0; i < colCount; i++) {
-        trmarkup += '<td><video width="100%" loop muted playsinline><source></video></td>';
+        columns += '<div class="col"><video loop muted playsinline></video></div>';
     }
-    trmarkup += '</tr>';
 
-    return trmarkup;
+    return columns;
 }
 
-function buildTable() {
+function buildContent() {
     // first row 4 columns
-    $(".table1 tbody").append(trmarkup(4));
+    $("#row1").append(columns(4));
 
     // second row 3 columns
-    $(".table2 tbody").append(trmarkup(3));
+    $("#row2").append(columns(3));
 
     // third row 4 columns
-    $(".table3 tbody").append(trmarkup(4));
+    $("#row3").append(columns(4));
 }
 
 function setVideoSources() {
@@ -88,7 +89,8 @@ function setVideoSources() {
             var i = 0;
             $('video').each(function () {
                 var video = this;
-                var videoSrc = data.result[i] ? data.result[i].playback.hls : data.result[0].playback.hls;
+                var result = data.result[i] ? data.result[i] : data.result[1];
+                var videoSrc = result.playback.hls;
                 if (Hls.isSupported()) {
                     var hls = new Hls();
                     hls.loadSource(videoSrc);
@@ -110,7 +112,7 @@ function setVideoSources() {
                 else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                     video.src = videoSrc;
                 }
-
+                video.poster = result.preview;
                 i++;
             });
         },
@@ -120,17 +122,22 @@ function setVideoSources() {
     });
 }
 
+function timeoutForVideoBuffering()
+{
+    setTimeout(() => {
+        $("#loadingSpinner").css("display", "none");
+        $("#playButton").css("visibility", "visible");
+    }, 7000);
+}
+
 
 $(document).ready(function () {
 
-    buildTable();
+    buildContent();
 
     setVideoSources();
 
     bindEvents();
-    $('#overlay').click(function () {
-        this.style.display = "none";
-        playAll();
-    });
-});
 
+    timeoutForVideoBuffering()
+});
