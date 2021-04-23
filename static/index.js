@@ -16,6 +16,7 @@ function requestFullscreen() {
 function playAll() {
     $('video').each(function () {
         this.play();
+        this.muted = false;
     });
     // $('audio').get(0).play();
 }
