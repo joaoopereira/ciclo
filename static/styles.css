@@ -2,13 +2,3 @@ body
 {
     background-color: black;
 }
-
-video::-webkit-media-controls 
-{
-    display:none !important;
-}
-
-/* td:hover
-{
-    border:2px solid rgb(221, 208, 27);
-} */
