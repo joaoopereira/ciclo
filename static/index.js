@@ -54,7 +54,7 @@ function trmarkup(colCount)
 {
     var trmarkup = '<tr class="table-dark">';
     for (i = 0; i < colCount; i++) {
-        trmarkup += '<td><video width="100%" autoplay loop muted playsinline><source></video></td>';
+        trmarkup += '<td><video width="100%" loop muted playsinline><source></video></td>';
     }
     trmarkup += '</tr>';
 
@@ -123,10 +123,15 @@ function setVideoSources() {
 
 
 $(document).ready(function () {
-    buildTable();
+    $('#overlay').click(function () {
+        this.style.display = "none";
+        buildTable();
 
-    setVideoSources();
-
-    bindEvents();
+        setVideoSources();
+    
+        bindEvents();
+        
+        playAll();
+    });
 });
 
