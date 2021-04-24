@@ -11,12 +11,16 @@ function requestFullscreen() {
     else if (this.webkitRequestFullScreen) {
         this.webkitRequestFullScreen();
     }
+    else if(this.webkitEnterFullScreen) 
+    {
+        this.webkitEnterFullScreen();
+    }
 }
 
 function playAll() {
     $('video').each(function () {
-        this.play();
         this.muted = false;
+        this.play();
     });
 }
 
@@ -127,7 +131,7 @@ function timeoutForVideoBuffering()
     setTimeout(() => {
         $("#loadingSpinner").css("display", "none");
         $("#playButton").css("visibility", "visible");
-    }, 7000);
+    }, 5000);
 }
 
 
