@@ -52,6 +52,8 @@ jobs:
       - name: test
         run: |
           ls
+          cd src
+          ls
           cd node_modules
           ls
         
