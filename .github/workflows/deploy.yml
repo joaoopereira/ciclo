@@ -49,13 +49,16 @@ jobs:
           files: '["**/index.html"]'
         env:
             cacheId: "${{ steps.timestamp.outputs.formattedTime }}"
-      - name: test
-        run: |
-          ls
-          cd src
-          ls
-          cd node_modules
-          ls
+
+      # Deploy node_modules to server
+      - name: 🌎 Deploy node_modules to server
+        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        with:
+          server: ${{ secrets.ftp_server }}
+          username: ${{ secrets.ftp_username }}
+          password: ${{ secrets.ftp_password }}
+          local-dir: "src/node_modules/"
+          server-dir: "${{ secrets.server_dir }}/node_modules"
         
       # Deploy files to server
       - name: 🌎 Deploy to server
