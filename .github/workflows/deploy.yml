@@ -20,7 +20,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: 🚚 Get latest code
-      - uses: actions/checkout@latest
+        uses: actions/checkout@latest
 
       # Deploys files to ftp server
       - name: 📂 Sync files
