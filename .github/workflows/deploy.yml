@@ -53,10 +53,10 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          ls
           mkdir site
-          cp ./src /site -r
-          cp ./node_modules /site -r
+          ls
+          cp ./src site -r
+          cp ./node_modules site -r
         
       # Deploy files to server
       - name: 🌎 Deploy to server
