@@ -1,3 +1,17 @@
+var loadedVideos = 0;
+
+function areVideosLoaded() {
+  var loaded = false;
+  if (loadedVideos == $("video").length) {
+    console.log("All videos loaded!");
+    loaded = true;
+  } else if(this.src != null) {
+    console.log("Loaded: " + this.src);
+    loadedVideos++;
+  }
+  return loaded;
+}
+
 function focusVideo() {
   if (this.requestFullscreen) {
     this.requestFullscreen();
@@ -46,6 +60,8 @@ function bindEvents() {
       "webkitendfullscreen webkitfullscreenchange mozfullscreenchange fullscreenchange",
       onFullscreenOff
     );
+
+    this.addEventListener("loadedmetadata", areVideosLoaded, false);
   });
 
   $("#playButton").bind("click", showPage);
@@ -54,8 +70,7 @@ function bindEvents() {
 function getColumns(colCount) {
   var columns = "";
   for (i = 0; i < colCount; i++) {
-    columns +=
-      "<td><video autoplay loop muted playsinline></video></td>";
+    columns += "<td><video autoplay loop muted playsinline></video></td>";
   }
   return columns;
 }
@@ -111,7 +126,7 @@ function setVideoSources() {
         // video.src URL must be on the user-driven white-list before a 'canplay'
         // event will be emitted; the last video event that can be reliably
         // listened-for when the URL is not on the white-list is 'loadedmetadata'.
-        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        else if (video.canPlayType("application/vnd.apple.mpegurl")) {
           video.src = videoSrc;
         }
       });
@@ -124,9 +139,16 @@ function setVideoSources() {
 
 function waitForVideoBuffering() {
   setTimeout(() => {
-    $("#loadingSpinner").css("display", "none");
-    $("#playButton").css("display", "block");
-  }, 5000);
+    if(areVideosLoaded())
+    {
+      $("#loadingSpinner").css("display", "none");
+      $("#playButton").css("display", "block");
+    }
+    else
+    {
+      waitForVideoBuffering() 
+    }
+  }, 500);
 }
 
 function setSameVideoHeight() {
