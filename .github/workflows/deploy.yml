@@ -58,7 +58,7 @@ jobs:
           username: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
           local-dir: "src/node_modules/"
-          server-dir: "${{ secrets.server_dir }}/node_modules"
+          server-dir: "${{ secrets.server_dir }}/node_modules/"
         
       # Deploy files to server
       - name: 🌎 Deploy to server
