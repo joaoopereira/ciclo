@@ -1,6 +1,4 @@
-var loadedVideos = 0;
-
-function requestFullscreen() {
+function focusVideo() {
   if (this.requestFullscreen) {
     this.requestFullscreen();
   } else if (this.msRequestFullscreen) {
@@ -19,7 +17,7 @@ function requestFullscreen() {
   $("#backgroundAudio").get(0).pause();
 }
 
-function fullScreenChange() {
+function onFullscreenOff() {
   var state =
     document.fullScreen ||
     document.mozFullScreen ||
@@ -31,30 +29,33 @@ function fullScreenChange() {
   }
 }
 
-function bindEvents() {
-  $("video").each(function () {
-    $(this).click(requestFullscreen);
-    $(this).bind(
-      "webkitendfullscreen webkitfullscreenchange mozfullscreenchange fullscreenchange",
-      fullScreenChange
-    );
-    $(this).bind("canplaythrough", function () {
-      loadedVideos++;
-    });
-  });
-
-  $("#playButton").click(function () {
-    $("#backgroundAudio").get(0).play();
-    $("#overlay").fadeOut("slow");
-    $("#middle").fadeIn("slow");
-    setSameVideoHeight();
-  });
+function showPage() {
+  var audio = $("#backgroundAudio").get(0);
+  audio.volume = 0.02;
+  audio.play();
+  $("#overlay").fadeOut("slow");
+  $("#middle").fadeIn("slow");
+  setSameVideoHeight();
 }
 
-function columns(colCount) {
+function bindEvents() {
+  $("video").each(function () {
+    $(this).bind("click", focusVideo);
+    $(this).bind(
+      "webkitendfullscreen webkitfullscreenchange mozfullscreenchange fullscreenchange",
+      onFullscreenOff
+    );
+  });
+
+  $("#playButton").bind("click", showPage);
+}
+
+function getColumns(colCount) {
   var columns = "";
+  var dataSetup = "";
   for (i = 0; i < colCount; i++) {
-    columns += "<td><video autoplay loop muted playsinline></video></td>";
+    columns +=
+      "<td><video class='video-js, vjs-fluid, vjs-16-9' data-setup={'" + dataSetup + "}' preload='auto' autoplay loop muted playsinline></video></td>";
   }
 
   return columns;
@@ -62,13 +63,13 @@ function columns(colCount) {
 
 function buildContent() {
   // first row 4 columns
-  $("#row1").append(columns(4));
+  $("#row1").append(getColumns(4));
 
   // second row 3 columns
-  $("#row2").append(columns(3));
+  $("#row2").append(getColumns(3));
 
   // third row 4 columns
-  $("#row3").append(columns(4));
+  $("#row3").append(getColumns(4));
 }
 
 function setVideoSources() {
@@ -90,28 +91,10 @@ function setVideoSources() {
         var video = this;
         var result = data.result[i] ? data.result[i] : data.result[5];
         var videoSrc = result.playback.hls;
-        if (Hls.isSupported()) {
-          var hls = new Hls();
-          hls.loadSource(videoSrc);
-          hls.attachMedia(video);
-        }
-        // hls.js is not supported on platforms that do not have Media Source
-        // Extensions (MSE) enabled.
-        //
-        // When the browser has built-in HLS support (check using `canPlayType`),
-        // we can provide an HLS manifest (i.e. .m3u8 URL) directly to the video
-        // element through the `src` property. This is using the built-in support
-        // of the plain video element, without using hls.js.
-        //
-        // Note: it would be more normal to wait on the 'canplay' event below however
-        // on Safari (where you are most likely to find built-in HLS support) the
-        // video.src URL must be on the user-driven white-list before a 'canplay'
-        // event will be emitted; the last video event that can be reliably
-        // listened-for when the URL is not on the white-list is 'loadedmetadata'.
-        else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-          video.src = videoSrc;
-        }
-        video.poster = result.preview;
+        var hls = new Hls();
+        hls.loadSource(videoSrc);
+        hls.attachMedia(video);
+        video.poster = result.thumbnail;
         i++;
       });
     },
@@ -123,13 +106,9 @@ function setVideoSources() {
 
 function waitForVideoBuffering() {
   setTimeout(() => {
-    if (loadedVideos == 11) {
-      $("#loadingSpinner").css("display", "none");
-      $("#playButton").css("visibility", "visible");
-    } else {
-      waitForVideoBuffering();
-    }
-  }, 100);
+    $("#loadingSpinner").css("display", "none");
+    $("#playButton").css("display", "block");
+  }, 5000);
 }
 
 function setSameVideoHeight() {
