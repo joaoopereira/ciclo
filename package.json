@@ -1,0 +1,24 @@
+{
+  "name": "ciclo",
+  "version": "1.0.0",
+  "description": "web app for Escola de Teatro da Retorta 2021 exhibition",
+  "main": "site/index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joaoopereira/ciclo.git"
+  },
+  "author": "joaoopereira",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joaoopereira/ciclo/issues"
+  },
+  "homepage": "https://github.com/joaoopereira/ciclo#readme",
+  "dependencies": {
+    "bootstrap": "^4.6.0",
+    "hls.js": "^1.0.2",
+    "jquery": "^3.6.0"
+  }
+}
