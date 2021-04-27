@@ -49,6 +49,11 @@ jobs:
           files: '["**/index.html"]'
         env:
             cacheId: "${{ steps.timestamp.outputs.formattedTime }}"
+      - name: test
+        run: |
+          ls
+          cd node_modules
+          ls
         
       # Deploy files to server
       - name: 🌎 Deploy to server
@@ -59,5 +64,4 @@ jobs:
           password: ${{ secrets.ftp_password }}
           local-dir: "src/"
           server-dir: ${{ secrets.server_dir }}
-          dangerous-clean-slate: "true"
           
