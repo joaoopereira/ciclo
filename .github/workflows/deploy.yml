@@ -1,10 +1,6 @@
-# This is a basic workflow to help you get started with Actions
+name: 🚀 Build and Deploy website on push
 
-name: 🚀 Deploy website on push
-
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
     paths:
@@ -14,11 +10,10 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "deploy"
+  # This workflow contains a single job called "Build and Deploy"
   web-deploy:
-    name: 🎉 Deploy
+    name: 🎉 Build and Deploy
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -41,7 +36,7 @@ jobs:
           format: YYYYMMDDhhmmss
       
       # Set index.html cacheId
-      - name: 🔃 Replace tokens
+      - name: 🔃 Replace index.html cacheId with timestamp
         uses: cschleiden/replace-tokens@v1.0
         with:
           tokenPrefix: '{'
@@ -60,7 +55,7 @@ jobs:
           local-dir: "src/node_modules/"
           server-dir: "${{ secrets.server_dir }}/node_modules/"
         
-      # Deploy files to server
+      # Deploy website files to server
       - name: 🌎 Deploy to server
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
