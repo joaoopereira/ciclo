@@ -26,6 +26,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: 🚚 Get latest code
         uses: actions/checkout@v2.3.4
+        
+      # Get timestamp to be used in next step
+      - name: Get timestamp
+        uses: srfrnk/current-time@master
+        id: timestamp
+        with:
+          format: YYYYMMDDhhmmss
       
       # Set index.html cacheId
       - name: Replace tokens
@@ -35,7 +42,7 @@ jobs:
           tokenSuffix: '}'
           files: '["**/index.html"]'
         env:
-            cacheId: ${{ github.run.id }}
+            cacheId: "${{ steps.timestamp.outputs.formattedTime }}"
 
       # Deploys files to ftp server
       - name: 📂 Sync files
