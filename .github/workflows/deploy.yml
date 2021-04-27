@@ -31,6 +31,8 @@ jobs:
       - name: Replace tokens
         uses: cschleiden/replace-tokens@v1.0
         with:
+          tokenPrefix: '{'
+          tokenSuffix: '}'
           files: '["**/index.html"]'
         env:
             cacheId: ${GITHUB_RUN_ID}
