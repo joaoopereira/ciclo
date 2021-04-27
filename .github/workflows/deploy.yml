@@ -7,6 +7,7 @@ on:
   # Triggers the workflow on push or pull request events but only for the main branch
   push:
     branches: [ main ]
+    paths: /site
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,7 +21,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: 🚚 Get latest code
-        uses: actions/checkout@latest
+        uses: actions/checkout@v2.3.4
+      
+      # Set index.html cacheId
+      - name: Replace tokens
+        uses: cschleiden/replace-tokens@v1.0
+        with:
+          files: '["./site/index.html"]'
+        env:
+            cacheId: GITHUB_RUN_ID
 
       # Deploys files to ftp server
       - name: 📂 Sync files
