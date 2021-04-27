@@ -35,7 +35,7 @@ jobs:
           tokenSuffix: '}'
           files: '["**/index.html"]'
         env:
-            cacheId: ${GITHUB_RUN_ID}
+            cacheId: $GITHUB_RUN_ID
 
       # Deploys files to ftp server
       - name: 📂 Sync files
