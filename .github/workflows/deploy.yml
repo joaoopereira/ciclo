@@ -30,6 +30,7 @@ jobs:
       # Install all dependencies
       - name: ℹ️ npm install
         run: npm install
+        working-directory: src
         
       # Get timestamp to be used in next step
       - name: ⌚ Get timestamp
@@ -47,24 +48,15 @@ jobs:
           files: '["**/index.html"]'
         env:
             cacheId: "${{ steps.timestamp.outputs.formattedTime }}"
-            
-      # Copy needed files to deploy folder
-      - name: 📂 Copy src and node_modules to site folder
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
-          mkdir site
-          ls
-          cp ./src site -r
-          cp ./node_modules site -r
         
       # Deploy files to server
       - name: 🌎 Deploy to server
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
+        uses: airvzxf/ftp-deployment-action@latest
         with:
           server: ${{ secrets.ftp_server }}
-          username: ${{ secrets.ftp_username }}
+          user: ${{ secrets.ftp_username }}
           password: ${{ secrets.ftp_password }}
-          local-dir: "site/"
-          server-dir: ${{ secrets.server_dir }}
+          local_dir: "src/"
+          remote_dir: ${{ secrets.server_dir }}
+          delete: true
           
