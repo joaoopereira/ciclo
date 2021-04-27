@@ -27,6 +27,11 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2.3.4
       
+      # Get timestamp to be used in next step
+      - name: Get timestamp
+        uses: gerred/actions/current-time@master
+        id: current-time
+      
       # Set index.html cacheId
       - name: Replace tokens
         uses: cschleiden/replace-tokens@v1.0
@@ -35,7 +40,7 @@ jobs:
           tokenSuffix: '}'
           files: '["**/index.html"]'
         env:
-            cacheId: "${{ github.run.id }}"
+            cacheId: "${{ steps.current-time.outputs.time }}"
 
       # Deploys files to ftp server
       - name: 📂 Sync files
