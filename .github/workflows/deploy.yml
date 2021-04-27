@@ -27,15 +27,22 @@ jobs:
       - name: 🚚 Get latest code
         uses: actions/checkout@v2.3.4
         
+      # Install all dependencies
+      - name: ℹ️ npm install
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - run: npm install      
+        
       # Get timestamp to be used in next step
-      - name: Get timestamp
+      - name: ⌚ Get timestamp
         uses: srfrnk/current-time@master
         id: timestamp
         with:
           format: YYYYMMDDhhmmss
       
       # Set index.html cacheId
-      - name: Replace tokens
+      - name: 🔃 Replace tokens
         uses: cschleiden/replace-tokens@v1.0
         with:
           tokenPrefix: '{'
@@ -43,9 +50,18 @@ jobs:
           files: '["**/index.html"]'
         env:
             cacheId: "${{ steps.timestamp.outputs.formattedTime }}"
-
-      # Deploys files to ftp server
-      - name: 📂 Sync files
+            
+      # Copy needed files to deploy folder
+      - name: 📂 Copy src and node_modules to site folder
+        run: |
+          echo Add other actions to build,
+          echo test, and deploy your project.
+          ls
+          cp ./src /site -r
+          cp ./node_modules /site -r
+        
+      # Deploy files to server
+      - name: 🌎 Deploy to server
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
         with:
           server: ${{ secrets.ftp_server }}
