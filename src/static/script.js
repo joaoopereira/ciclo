@@ -46,7 +46,6 @@ function onFullscreenOff() {
 
 function showPage() {
   var audio = $("#backgroundAudio").get(0);
-  audio.volume = 0.02;
   audio.play();
   $("#overlay").fadeOut("slow");
   $("#middle").fadeIn("slow");
