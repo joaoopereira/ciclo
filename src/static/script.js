@@ -45,8 +45,7 @@ function onFullscreenOff() {
 }
 
 function showPage() {
-  var audio = $("#backgroundAudio").get(0);
-  audio.play();
+  $("#backgroundAudio").get(0).play();
   $("#overlay").fadeOut("slow");
   $("#middle").fadeIn("slow");
   setSameVideoHeight();
