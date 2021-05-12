@@ -55,6 +55,7 @@ function showPage() {
   $("#overlay").fadeOut("slow");
   $("#middle").fadeIn("slow");
   setSameVideoHeight();
+  setSameHeightSocialLogos();
 }
 
 function bindEvents() {
@@ -188,6 +189,20 @@ function setSameVideoHeight() {
   videos.height(minHeight);
 }
 
+function setSameHeightSocialLogos() {
+  // Set all Height Equal
+  var socialLogos = $(".social");
+  var minHeight = Math.min.apply(
+    Math,
+    socialLogos
+      .map(function () {
+        return $(this).height();
+      })
+      .get()
+  );
+  socialLogos.height(minHeight);
+}
+
 $(document).ready(function () {
   buildContent();
 
@@ -200,4 +215,5 @@ $(document).ready(function () {
 
 $(window).resize(function () {
   setSameVideoHeight();
+  setSameHeightSocialLogos();
 });
