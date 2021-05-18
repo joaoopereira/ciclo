@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta http-equiv="cache-control" content="no-cache">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- favicon -->
+    <link rel="shortcut icon" href="static/favicon.ico" type="image/x-icon">
+
+    <!-- Bootstrap CSS -->
+    <link href="node_modules/bootstrap/dist/css/bootstrap.min.css?cacheId={cacheId}" rel="stylesheet">
+
+    <!-- own CSS -->
+    <link rel="stylesheet" href="static/styles.css?cacheId={cacheId}">
+
+    <title>ETR - Ciclo - impressão digital</title>
+</head>
+
+<body>
+    <div id="overlay">
+        <div id="loadingSpinner"></div>
+        <div class="h-100 d-flex justify-content-center align-items-center">
+            <div id="playButton" style="font-size: 10em" role="img">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" fill="currentColor"
+                    class="bi bi-play" viewBox="0 0 16 16">
+                    <path
+                        d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z">
+                    </path>
+                </svg>
+            </div>
+        </div>
+    </div>
+    <div id="top" class="text-center">
+        <img src="media/title.svg"></img>
+    </div>
+    <div id="middle">
+        <div>
+            <table>
+                <tbody>
+                    <tr id="row1"></tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr id="row2"></tr>
+                </tbody>
+            </table>
+            <table>
+                <tbody>
+                    <tr id="row3"></tr>
+                </tbody>
+            </table>
+        </div>
+        <div id="bottom" class="container">
+            <div class="row">
+                <div class="col"></div>
+                <div class="col text-center">
+                    <img src="media/logo.svg" style="height: auto;width: 75%;"></img>
+                </div>
+                <div class="col"></div>                
+            </div>
+            <div class="row">
+                <img src="media/datasheet.svg"></img>
+            </div>            
+            <div class="row">
+                <div class="col text-center">
+                    <img class="social" src="media/email.svg"></img>
+                </div>
+                <div class="col text-center">
+                    <img class="social" src="media/instagram.svg"></img>
+                </div>
+                <div class="col text-center">
+                    <img class="social" src="media/facebook.svg"></img>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Because unmute all videos can cause some issues in mobile, we used a background audio -->
+    <audio id="backgroundAudio" loop>
+        <source src="media/merge-ciclo.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- hls.js -->
+    <script src="node_modules/hls.js/dist/hls.js?cacheId={cacheId}"></script>
+
+    <!--  jQuery -->
+    <script src="node_modules/jquery/dist/jquery.min.js?cacheId={cacheId}"></script>
+
+    <!--  Bootstrap Bundle with Popper -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js?cacheId={cacheId}"></script>
+
+    <!-- own js-->
+    <script src="static/script.js?cacheId={cacheId}"></script>
+</body>
+
+</html>
